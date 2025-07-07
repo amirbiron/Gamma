@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מדריך Gamma - כלי AI ליצירת מצגות</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 40px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .content {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.6rem;
+            margin: 30px 0 15px 0;
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .steps {
+            counter-reset: step;
+        }
+
+        .step {
+            counter-increment: step;
+            background: #f8f9fa;
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 15px;
+            border-right: 5px solid #667eea;
+            position: relative;
+        }
+
+        .step::before {
+            content: counter(step);
+            position: absolute;
+            right: 20px;
+            top: -15px;
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .step h4 {
+            color: #764ba2;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-right: 4px solid #f093fb;
+        }
+
+        .tip {
+            background: #e3f2fd;
+            border-right: 4px solid #2196f3;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .warning {
+            background: #fff3e0;
+            border-right: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .pricing-section {
+            background: #f8f9fa;
+            padding: 40px;
+            margin: 40px -50px;
+            border-radius: 20px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .pricing-card.popular {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .pricing-card h3 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #f093fb;
+            margin: 20px 0;
+        }
+
+        .price small {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .features-list {
+            list-style: none;
+            text-align: right;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .features-list li::before {
+            content: "✓";
+            color: #4caf50;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .creation-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .method-card {
+            background: white;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .method-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+        }
+
+        .method-card h4 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .editor-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .editor-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .editor-card h4 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .pricing-section {
+                margin: 40px -20px;
+                padding: 30px 20px;
+            }
+
+            .section h2 {
+                font-size: 1.8rem;
+            }
+
+            .pricing-card.popular {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🎨 Gamma</h1>
+            <p>מדריך מקיף לכלי הבינה המלאכותית המתקדם ליצירת מצגות, דפי אינטרנט ומסמכים מדהימים</p>
+        </div>
+
+        <div class="content">
+            <!-- מבוא -->
+            <div class="section">
+                <h2>מה זה Gamma?</h2>
+                <div class="intro-box">
+                    <strong>Gamma</strong> היא כלי מתקדם המופעל על ידי בינה מלאכותית, שמפשט את תהליך יצירת מצגות מדהימות תוך דקות. היא נועדה לעשות את העבודה הקשה ולאפשר למשתמש להתמקד בתוכן.
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4>📊 מצגות</h4>
+                        <p>מצגות מקצועיות ומרשימות עם עיצוב מתקדם</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🌐 דפי אינטרנט</h4>
+                        <p>אתרים ודפי נחיתה אינטראקטיביים</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📄 מסמכים</h4>
+                        <p>מסמכים מעוצבים ומקצועיים</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📱 תוכן לרשתות</h4>
+                        <p>פוסטים מעוצבים לרשתות חברתיות</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- שיטות יצירה -->
+            <div class="section">
+                <h2>שיטות ליצירת תוכן</h2>
+                <p>Gamma מציעה שלוש דרכים אינטואיטיביות ליצירת מצגות:</p>
+
+                <div class="creation-methods">
+                    <div class="method-card">
+                        <h4>1. הדבק טקסט (Paste in text)</h4>
+                        <p>אפשרות זו מיועדת למקרים בהם כבר יש לכם תוכן כתוב, כמו הערות ממסמך, טיוטת פוסט בבלוג או סיכום פגישה. Gamma קוראת את התוכן הגולמי והופכת אותו לשקופיות מעוצבות.</p>
+                    </div>
+
+                    <div class="method-card">
+                        <h4>2. צור (Generate) - קסם ה-AI</h4>
+                        <div class="highlight">
+                            <strong>זוהי האפשרות הפופולרית ביותר!</strong> כל מה שצריך לעשות הוא לספק את הרעיון שלך בפרומפט, ו-Gamma תטפל בהמשך. אתה מתאר מה שאתה רוצה ו-Gamma יוצרת זאת.
+                        </div>
+                        <p><strong>פורמטים זמינים:</strong> מצגת, דף אינטרנט, מסמך או פוסט לרשתות חברתיות.</p>
+                    </div>
+
+                    <div class="method-card">
+                        <h4>3. ייבוא קובץ או URL</h4>
+                        <p>אם יש לכם תוכן קיים במקום אחר כמו מסמך Word, קובץ PDF, דף אינטרנט, Google Drive או Notion, Gamma יכולה למשוך אותו ולהפוך אותו למצגת מעוצבת.</p>
+                        <div class="tip">
+                            <strong>טיפ:</strong> Gamma טובה במיוחד בפיענוח מבנה, במיוחד אם התוכן המקורי מאורגן היטב.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- תהליך מפורט -->
+            <div class="section">
+                <h2>יצירת מצגת באמצעות "צור" - תהליך מפורט</h2>
+                
+                <div class="steps">
+                    <div class="step">
+                        <h4>בחירת סוג התוכן</h4>
+                        <p>בחרו "מצגת" מתוך האפשרויות הזמינות.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>קביעת מספר הכרטיסים</h4>
+                        <p>אלו הן השקופיות במצגת:</p>
+                        <ul>
+                            <li><strong>תכנית חינמית:</strong> עד 10 כרטיסים</li>
+                            <li><strong>תכנית Plus:</strong> עד 20 כרטיסים</li>
+                            <li><strong>תכנית Pro:</strong> עד 60 כרטיסים</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>סגנון העמוד ושפה</h4>
+                        <p>בחירה בין סגנון מסורתי, גבוה או ברירת מחדל. ניתן לבחור את שפת המצגת (כולל עברית).</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>הזנת פרומפט מפורט</h4>
+                        <div class="highlight">
+                            <h4>חשיבות הפירוט:</h4>
+                            <p>רמת הפירוט והתיאורים שאתם מספקים בפרומפט משפיעה באופן משמעותי על איכות התוצר הסופי.</p>
+                            
+                            <h4>מבנה פרומפט מומלץ:</h4>
+                            <ul>
+                                <li>התחילו בפורמט המצופה ("צור מצגת")</li>
+                                <li>תנו שם מותג וקונספט ברור</li>
+                                <li>פרטו את נקודות התוכן המרכזיות</li>
+                                <li>ציינו את קהל היעד</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>יצירת קווי מתאר ועריכה</h4>
+                        <p>ה-AI יבנה קווי מתאר למצגת. ניתן לערוך: לשנות סדר שקופיות, למחוק קטעים מיותרים, להוסיף כרטיסים חדשים ולערוך את הטקסט.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>בחירת ערכת נושא</h4>
+                        <p>בחירה מתוך ספרייה עשירה של ערכות נושא (ירוק, בהיר, כהה, עליז, צבעוני). ניתן לשנות בכל עת מאוחר יותר.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>הגדרות תוכן מתקדמות</h4>
+                        <ul>
+                            <li><strong>כמות טקסט לכרטיס:</strong> קצר (מומלץ) / בינוני / נרחב / מפורט</li>
+                            <li><strong>מקור תמונות:</strong> תמונות AI / סטוק / אינטרנט / GIFs / מצייני מיקום</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>יצירת המצגת</h4>
+                        <p>לחיצה על "Generate" - Gamma בונה את המצגת כולה תוך רגעים! עלות: כ-40 קרדיטים.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ניהול ועריכת כרטיסים -->
+            <div class="section">
+                <h2>ניהול ועריכת כרטיסים בודדים</h2>
+                
+                <div class="steps">
+                    <div class="step">
+                        <h4>ניווט בין שקופיות</h4>
+                        <p>ניתן לגרור ולשחרר שקופיות כדי לסדר מחדש את הסדר שלהן בצורה אינטואיטיביה וקלה.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>הוספת שקופיות חדשות</h4>
+                        <p>ניתן להוסיף כרטיסים חדשים בכל נקודה במצגת על פי הצורך.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>אפשרויות בלחיצה ימנית</h4>
+                        <p>בלחיצה ימנית על כרטיס, תופיענה אפשרויות כמו שכפול, העתקה, גזירה, הוספת כרטיס וייצוא.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>תצוגת רשימה (List view)</h4>
+                        <p>אפשרות זו מאפשרת עריכת טקסט ישירה בצורה מהירה ויעילה.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>עריכה עם AI לכרטיסים ספציפיים</h4>
+                        <ul>
+                            <li><strong>שינוי פריסות:</strong> ניתן לנסות פריסות חדשות של ה-AI אם הפריסה הנוכחית אינה מוצאת חן בעיניך</li>
+                            <li><strong>צ'אט עם AI:</strong> ניתן "לשוחח" עם ה-AI (כמו ChatGPT) כדי לשפר את הכתיבה (לדוגמה, להפוך טקסט לתמציתי או מרתק יותר)</li>
+                            <li><strong>עריכת תמונות:</strong> ניתן לבקש מה-AI לשנות תמונות ספציפיות, לדוגמה, לשנות תאורה או להוסיף אלמנטים מסוימים</li>
+                        </ul>
+                        <div class="tip">
+                            <strong>שימו לב:</strong> מודל ה-AI שנבחר משפיע על דיוק הטקסט בתמונות.
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>הוספת הערות</h4>
+                        <p>ניתן להוסיף הערות לכל שקופית לצורך הבהרות או הנחיות נוספות.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>פורמט טקסט</h4>
+                        <p>ניתן לעצב טקסט באופן אינדיבידואלי - גודל, צבע, סגנון ועוד.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- סיום וייצוא -->
+            <div class="section">
+                <h2>סיום וייצוא</h2>
+                <p>לאחר סיום העבודה על המצגת, ניתן להציג אותה במצב "הצגה" מלא עם מעברים חלקים ומקצועיים.</p>
+                
+                <div class="highlight">
+                    <h3>אפשרויות ייצוא:</h3>
+                    <ul>
+                        <li><strong>PDF:</strong> קובץ PDF לשמירה וחלוקה</li>
+                        <li><strong>PowerPoint:</strong> מצגת PowerPoint לעריכה נוספת</li>
+                        <li><strong>Google Slides:</strong> ייבוא ישיר ל-Google Slides</li>
+                        <li><strong>PNG:</strong> קבצי תמונות PNG לכל שקופית</li>
+                    </ul>
+                </div>
+
+                <div class="warning">
+                    <strong>שימו לב:</strong> בתכנית החינמית, המצגות המיוצאות יכללו סימן מים של Gamma. ניתן להסיר אותו על ידי שדרוג לתכנית Plus ומעלה.
+                </div>
+            </div>
+
+            <!-- תמחור -->
+            <div class="pricing-section">
+                <h2>תוכניות התמחור</h2>
+                <p style="text-align: center; margin-bottom: 30px;">המחיר הוא לכל משתמש בנפרד - אם אתם עובדים בצוות, כל חבר צוות יצטרך תכנית משלו. תכניות שנתיות זולות משמעותית מחודשיות.</p>
+
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>חינמית</h3>
+                        <div class="price">$0</div>
+                        <ul class="features-list">
+                            <li>תכונות ליבה של Gamma</li>
+                            <li>עד 10 כרטיסים במצגת</li>
+                            <li>400 קרדיטים AI</li>
+                            <li>תמונות AI בסיסיות</li>
+                            <li>סימן מים של Gamma</li>
+                            <li>מוגבל בתכונות</li>
+                        </ul>
+                    </div>
+
+                    <div class="pricing-card popular">
+                        <h3>Plus (הפופולרית)</h3>
+                        <div class="price">$8<small>/שנה למושב</small></div>
+                        <ul class="features-list">
+                            <li>יצירת AI ללא הגבלה</li>
+                            <li>עד 20 כרטיסים במצגת</li>
+                            <li>50,000 טוקנים של AI</li>
+                            <li>הסרת מיתוג Gamma</li>
+                            <li>תמונות AI מתקדמות</li>
+                            <li>תמיכה בעדיפות</li>
+                            <li>גישה מוקדמת לתכונות</li>
+                        </ul>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>Pro</h3>
+                        <div class="price">$15<small>/שנה למושב</small></div>
+                        <ul class="features-list">
+                            <li>כל תכונות Plus +</li>
+                            <li>עד 60 כרטיסים במצגת</li>
+                            <li>100,000 טוקנים של AI</li>
+                            <li>תמונות AI פרימיום</li>
+                            <li>כלי עריכת AI מתקדמים</li>
+                            <li>ניתוח נתונים מפורט</li>
+                            <li>דומיינים מותאמים אישית</li>
+                            <li>הגנה באמצעות סיסמה</li>
+                            <li>גופנים מותאמים אישית</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 המלצה:</strong> התכנית החינמית טובה לניסויים או לשימוש מזדמן, אך לשימוש רציני (עבודות לקוחות, גיוס כספים) מומלצות תכניות Plus או Pro.
+                </div>
+            </div>
+
+            <!-- סיכום -->
+            <div class="section">
+                <h2>סיכום</h2>
+                <div class="intro-box">
+                    בסך הכל, Gamma מספקת פתרון עוצמתי וקל לשימוש ליצירת מצגות ומסמכים מקצועיים באמצעות בינה מלאכותית, עם מגוון רחב של כלים להתאמה אישית ועריכה. הכלי מתאים למגוון רחב של משתמשים - מיוצרי תוכן בודדים ועד צוותים גדולים בארגונים.
+                </div>
+                
+                <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #667eea, transparent); margin: 40px 0 30px 0;">
+                
+                <p style="text-align: center; color: #667eea; font-size: 1rem;">
+                    לעוד מדריכים בנושאי AI הצטרפו לערוץ הטלגרם: 
+                    <a href="https://t.me/AndroidAndAI" target="_blank" style="color: #667eea; text-decoration: none; border: 2px solid #667eea; padding: 5px 12px; border-radius: 20px; margin-right: 8px; transition: all 0.3s ease; display: inline-block;">
+                        https://t.me/AndroidAndAI
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
